@@ -369,7 +369,7 @@ class Area:
     def __init__(self, field: list):
         self.field = field
         if isinstance(field[0], str):
-            self.field = list(map(lambda line: list(line), field))
+            self.field = [list(line) for line in field]
         self.bounds = Position(len(field[0]), len(field))
 
     @staticmethod
@@ -398,12 +398,12 @@ class Area:
 
     def __str__(self):
         if isinstance(self.field[0][0], Enum):
-            return "\n".join(map(lambda line: "".join(map(lambda x: x.value, line)), self.field))
+            return "\n".join(["".join([x.value for x in line]) for line in self.field])
         else:
-            return "\n".join(map(lambda line: "".join(map(lambda x: str(x), line)), self.field))
+            return "\n".join(["".join([str(x) for x in line]) for line in self.field])
 
     def count(self, value) -> int:
-        return sum(map(lambda line: sum([1 if x == value else 0 for x in line]), self.field))
+        return sum([sum([1 if x == value else 0 for x in line]) for line in self.field])
 
     def flood_fill(self, start: Position, value):
         old_value = self[start]

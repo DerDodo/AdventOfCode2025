@@ -6,10 +6,10 @@ from util.run_util import RunTimer
 
 def parse_input_file() -> tuple[list[int], list[int], dict[int, int]]:
     lines = read_input_file(1)
-    parts_list = list(map(lambda line: line.split(" "), lines))
+    parts_list = [line.split(" ") for line in lines]
 
-    left = list(map(lambda parts: int(parts[0]), parts_list))
-    right = list(map(lambda parts: int(parts[-1]), parts_list))
+    left = [int(parts[0]) for parts in parts_list]
+    right = [int(parts[-1]) for parts in parts_list]
 
     right_amount = defaultdict(int)
     for item in right:
