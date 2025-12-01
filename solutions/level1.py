@@ -1,41 +1,41 @@
-from collections import defaultdict
-
 from util.file_util import read_input_file
 from util.run_util import RunTimer
 
 
-def parse_input_file() -> tuple[list[int], list[int], dict[int, int]]:
+def parse_input_file() -> list[int]:
     lines = read_input_file(1)
-    parts_list = [line.split(" ") for line in lines]
-
-    left = [int(parts[0]) for parts in parts_list]
-    right = [int(parts[-1]) for parts in parts_list]
-
-    right_amount = defaultdict(int)
-    for item in right:
-        right_amount[item] += 1
-
-    left.sort()
-    right.sort()
-
-    return left, right, right_amount
+    directions = [int(line[1:]) * (-1 if line[0] == "L" else 1) for line in lines]
+    return directions
 
 
 def level1() -> tuple[int, int]:
-    left, right, right_amount = parse_input_file()
-    total_distance = 0
-    total_similarity = 0
-    for i in range(len(left)):
-        total_distance += abs(left[i] - right[i])
-        total_similarity += left[i] * right_amount[left[i]]
-    return total_distance, total_similarity
+    directions = parse_input_file()
+    dial = 50
+    times_ended_on_0 = 0
+    times_passed_0 = 0
+    for direction in directions:
+        if direction == 0:
+            continue
+
+        started_on_zero = dial == 0
+        times_passed, dial = divmod(dial + direction, 100)
+        times_passed = abs(times_passed)
+        if direction < 0:
+            if dial == 0:
+                times_passed += 1
+            if started_on_zero:
+                times_passed -= 1
+        times_passed_0 += times_passed
+        if dial == 0:
+            times_ended_on_0 += 1
+    return times_ended_on_0, times_passed_0
 
 
 if __name__ == '__main__':
     timer = RunTimer()
-    print(f"Total distance: {level1()}")
+    print(f"Safe code: {level1()}")
     timer.print()
 
 
 def test_level1():
-    assert level1() == (11, 31)
+    assert level1() == (3, 6)
