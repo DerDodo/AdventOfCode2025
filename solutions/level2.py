@@ -1,4 +1,5 @@
 from util.file_util import read_input_file
+from util.math_util import count_digits
 from util.run_util import RunTimer
 
 
@@ -14,8 +15,8 @@ def parse_input_file() -> list[list[int]]:
 
 def prepare_range(num_parts: int, input_id_range: list[int]) -> list[int]:
     id_range = [input_id_range[0], input_id_range[1]]
-    len0 = len(str(id_range[0]))
-    len1 = len(str(id_range[1]))
+    len0 = count_digits(id_range[0])
+    len1 = count_digits(id_range[1])
     if len0 != len1:
         if len0 % num_parts != 0:
             id_range[0] = int('1' + '0' * len0)
@@ -25,15 +26,15 @@ def prepare_range(num_parts: int, input_id_range: list[int]) -> list[int]:
 
 
 def is_pattern_possible(num_parts: int, id_range: list[int]) -> bool:
-    len0 = len(str(id_range[0]))
-    len1 = len(str(id_range[1]))
+    len0 = count_digits(id_range[0])
+    len1 = count_digits(id_range[1])
     part_length = len1 // num_parts
     return (len0 == len1 and len0 % num_parts == 0) or part_length == 0
 
 
 def save_calc_invalid_ids(num_parts: int, id_range: list[int]) -> set[int]:
     invalid_ids = set()
-    len1 = len(str(id_range[1]))
+    len1 = count_digits(id_range[1])
     part_length = len1 // num_parts
     id_min_l = int(str(id_range[0])[0:part_length])
     id_max_l = int(str(id_range[1])[0:part_length])
@@ -58,7 +59,7 @@ def level2() -> tuple[int, int]:
     invalid_ids = set()
     invalid_two_part_ids = set()
     for id_range in id_ranges:
-        for i in range(2, len(str(id_range[1])) + 1):
+        for i in range(2, count_digits(id_range[1]) + 1):
             new_invalid_ids = calc_invalid_ids(i, id_range)
             invalid_ids.update(new_invalid_ids)
             if i == 2:
