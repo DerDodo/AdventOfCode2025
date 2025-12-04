@@ -382,10 +382,10 @@ class Area:
     def __setitem__(self, position: Position, value):
         self.field[position.y][position.x] = value
 
-    def safe_check(self, position: Position, value):
+    def safe_check(self, position: Position, value) -> bool:
         return position.is_in_bounds(self.bounds) and self[position] == value
 
-    def fast_safe_check(self, x: int, y: int, value):
+    def fast_safe_check(self, x: int, y: int, value) -> bool:
         return 0 <= x < self.bounds.x and 0 <= y < self.bounds.y and self.field[y][x] == value
 
     def __iter__(self):
