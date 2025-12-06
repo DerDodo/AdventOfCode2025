@@ -15,7 +15,7 @@ def read_input_file(level_id: int, file_id: int = 0, strip: bool = True) -> List
     else:
         file = f"-{file_id}"
 
-    input_file = open(f"{folder_prefix}input-files/{folder}/level{level_id}{file}.txt", "r")
+    input_file = open(f"{folder_prefix}input-files/{folder}/level{'{:02d}'.format(level_id)}{file}.txt", "r")
     lines = input_file.readlines()
     if strip:
         lines = [line.strip() for line in lines]
