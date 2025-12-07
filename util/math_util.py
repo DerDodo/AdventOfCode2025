@@ -376,6 +376,12 @@ class Area:
     def from_bounds_and_value(bounds: Position, value):
         return Area(create_2d_list(bounds.x, bounds.y, value))
 
+    def get_width(self) -> int:
+        return len(self.field[0])
+
+    def get_height(self) -> int:
+        return len(self.field)
+
     def __getitem__(self, position: Position):
         return self.field[position.y][position.x]
 
